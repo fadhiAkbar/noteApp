@@ -1,4 +1,4 @@
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   return (
     <nav className="flex justify-between items-center mx-[144px] h-[100px] sticky top-0 z-50 bg-white">
       <img src="/logo.svg" alt="" className="w-[180px] h-[60px]" />
@@ -8,6 +8,7 @@ const Navbar = () => {
           type="text"
           className="border-none bg-transparent text-[#6A7282]"
           placeholder="Search..."
+          onChange={(e) => onSearch(e.target.value)}
         />
       </div>
     </nav>
