@@ -4,13 +4,13 @@ import NoteItem from "./components/NoteItem";
 import Notes from "./components/Notes";
 
 function App() {
-  const loadNotes = () => JSON.parse(localStorage.getItem("notes") || []);
-  const [notes, setNotes] = useState(loadNotes);
+  // const loadNotes = () => JSON.parse(localStorage.getItem("notes") || []);
+  const [notes, setNotes] = useState([]);
   const [filteredNotes, setFilteredNotes] = useState(notes);
 
   useEffect(() => {
     setFilteredNotes(notes);
-    localStorage.setItem("notes", JSON.stringify(notes));
+    // localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
   const handleSearch = (query) => {
