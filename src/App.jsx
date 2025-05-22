@@ -9,15 +9,23 @@ function App() {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    if (isInitialized) {
+    if (isInitialized && typeof window !== "undefined") {
       localStorage.setItem("notes", JSON.stringify(notes));
     }
   }, [notes, isInitialized]);
 
   useEffect(() => {
-    const loadNotes = () => JSON.parse(localStorage.getItem("notes") || []);
-    setNotes(loadNotes);
-    setIsInitialized(true);
+    if (typeof window !== "undefined") {
+      try {
+        const storedNotes = localStorage.getItem("notes");
+        if (storedNotes) {
+          setNotes(JSON.parse(storedNotes));
+        }
+      } catch (error) {
+        console.error("Failed to parse notes from localStorage", error);
+      }
+      setIsInitialized(true);
+    }
   }, []);
 
   const handleSearch = (query) => {
