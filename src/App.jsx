@@ -4,31 +4,30 @@ import NoteItem from "./components/NoteItem";
 import Notes from "./components/Notes";
 
 function App() {
-  // const loadNotes = () => JSON.parse(localStorage.getItem("notes") || []);
   const [notes, setNotes] = useState([]);
-  const [filteredNotes, setFilteredNotes] = useState(notes);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
-    setFilteredNotes(notes);
-    // localStorage.setItem("notes", JSON.stringify(notes));
-  }, [notes]);
+    if (isInitialized) {
+      localStorage.setItem("notes", JSON.stringify(notes));
+    }
+  }, [notes, isInitialized]);
+
+  useEffect(() => {
+    const loadNotes = () => JSON.parse(localStorage.getItem("notes") || []);
+    setNotes(loadNotes);
+    setIsInitialized(true);
+  }, []);
 
   const handleSearch = (query) => {
-    if (query.trim() === "") {
-      setFilteredNotes(notes);
-    } else {
-      setFilteredNotes(
-        notes.filter((note) =>
-          note.title.toLowerCase().includes(query.toLowerCase())
-        )
-      );
-    }
+    setQuery(query);
   };
 
   return (
     <>
       <Navbar onSearch={handleSearch} />
-      <Notes notes={filteredNotes} setNotes={setNotes} />
+      <Notes notes={notes} setNotes={setNotes} onSearchQuery={query} />
     </>
   );
 }

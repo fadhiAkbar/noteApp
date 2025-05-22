@@ -1,7 +1,7 @@
 import NoteForm from "./NoteForm";
 import NoteList from "./NoteList";
 
-const Notes = ({ notes, setNotes }) => {
+const Notes = ({ notes, setNotes, onSearchQuery }) => {
   const addNote = (title, content) => {
     // data baru
     const newNote = {
@@ -30,8 +30,11 @@ const Notes = ({ notes, setNotes }) => {
   };
 
   // filter note
-  const activeNotes = notes.filter((note) => note.archive === false);
-  const archivedNotes = notes.filter((note) => note.archive === true);
+  const filtered = notes.filter((note) =>
+    note.title.toLowerCase().includes(onSearchQuery.toLowerCase())
+  );
+  const activeNotes = filtered.filter((note) => note.archive === false);
+  const archivedNotes = filtered.filter((note) => note.archive === true);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
